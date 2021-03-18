@@ -1,0 +1,233 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "description": "Backend with Flask",
+        "version": "1.0.0",
+        "title": "PokeCRUD backend with Flask",
+        "contact": {
+            "email": "aregam343@hotmail.com"
+        },
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "servers": [
+        {
+            "url" : "/"
+        }
+    ],
+    "tags":[
+        {
+            "name" : "Pokemon Request",
+            "description" : "API for requesting and return pokemons"
+        }
+    ],
+    "paths": {
+        "/api/pokemon" : {
+            "get": {
+                "tags":[
+                    "Pokemon Request"
+                ],
+                "summary": "Returns Pokemons",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/components/schemas/pokemonRequest"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags":[
+                    "Pokemon Request"
+                ],
+                "summary": "Creates a new pokemon",
+                "requestBody": {
+                    "description": "Pokemon request post object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/pokemonRequest"
+                            }
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/components/schemas/id"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed. Bad Pokemon data."
+                    }
+                }
+            }
+        },
+        "/api/pokemon/{id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "description": "ID of the pokemon that we want to match",
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "tags": [
+                    "Pokemon Request"
+                ],
+                "summary": "Get a Pokemon with given ID",
+                "parameters":[
+                    {
+                        "in":"path",
+                        "name":"id",
+                        "required":true,
+                        "description": "Pokemon ID",
+                        "schema":{
+                            "$ref": "#/components/schemas/id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description":"OK",
+                        "schema": {
+                            "$ref": "#/components/schemas/pokemonRequest"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed. Misunderstood Request."
+                    },
+                    "404": {
+                        "description": "Failed. Pokemon not found."
+                    }
+                }
+            },
+            "put": {
+                "summary": "Edit the pokemon info by ID",
+                "tags": [
+                    "Pokemon Request"
+                ],
+                "parameters": [
+                    {
+                        "in":"path",
+                        "name":"id",
+                        "required":true,
+                        "description":"Pokemon ID",
+                        "schema": {
+                            "$ref": "#/components/schemas/id"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Pokemon object",
+                    "required":true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/pokemonRequest"
+                            }
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description":"OK",
+                        "schema": {
+                            "$ref": "#/components/schemas/name"
+                        }
+                    },
+                    "400": {
+                        "description":"Failed. Bad Pokemon data."
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete pokemon by ID",
+                "tags":[
+                    "Pokemon Request"
+                ],
+                "parameters": [
+                    {
+                        "in":"path",
+                        "name":"id",
+                        "required":true,
+                        "description":"Pokemon ID",
+                        "schema": {
+                            "$ref": "#/components/schemas/id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description":"OK",
+                        "schema":{
+                            "$ref": "#/components/schemas/id"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed. Misunderstood Request."
+                    },
+                    "404": {
+                        "description": "Failed. Pokemon Request not found."
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "id": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    }
+                }
+            },
+            "name": {
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    }
+                }
+            },
+            "pokemonRequest": {
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "ability": {
+                        "type": "string"
+                    },
+                    "h_ability": {
+                        "type": "string"
+                    },
+                    "habitat": {
+                        "type": "string"
+                    },
+                    "img": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}

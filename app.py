@@ -1,9 +1,23 @@
+from flask_swagger_ui import get_swaggerui_blueprint
 from flask import Flask,request,jsonify
 from flask_mysqldb import MySQL
 from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)
+
+# Swagger Specifications #
+SWAGGER_URL = '/api/docs'
+API_URL = '/static/swagger.json'
+SWAGGERUI_BLUEPRINT = get_swaggerui_blueprint(
+    SWAGGER_URL,
+    API_URL,
+    config={
+        'app_name': "PokeCRUD Flask Backend"
+    }
+)
+app.register_blueprint(SWAGGERUI_BLUEPRINT, url_prefix = SWAGGER_URL)
+# End Swagger Specifications #
 
 #MySQL Connection
 app.config['MYSQL_HOST'] = 'b9l7iiupadf8mvxind2z-mysql.services.clever-cloud.com'
