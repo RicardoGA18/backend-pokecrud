@@ -1,7 +1,6 @@
 from flask import Flask,request,jsonify
 from flask_mysqldb import MySQL
 from flask_cors import CORS
-from flask_swagger_ui import get_swaggerui_blueprint
 
 app = Flask(__name__)
 CORS(app)
@@ -16,20 +15,6 @@ mysql = MySQL(app)
 
 #settings
 app.secret_key = 'mysecretkey'
-
-#Swagger documentation
-SWAGGER_URL = '/api/docs'
-API_URL = 'https://backend-pokecrud.herokuapp.com/api/pokemon'
-
-swaggerui_blueprint = get_swaggerui_blueprint(
-  SWAGGER_URL,
-  API_URL,
-  config={
-    'app_name': 'PokeCRUD API'
-  }
-)
-
-app.register_blueprint(swaggerui_blueprint)
 
 @app.route('/api/pokemon', methods = ['POST','GET'])
 def manage_pokemons():
